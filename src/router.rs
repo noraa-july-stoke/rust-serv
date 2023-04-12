@@ -1,22 +1,22 @@
-use std::io::prelude::*;
-use std::net::TcpListener;
+use std::io::Write;
+use std::net::TcpStream;
 
-struct Router {
+pub struct Router {
     routes: Vec<Route>,
 }
 
-struct Route {
+pub struct Route {
     method: String,
     path: String,
     handler: fn(&mut TcpStream, &str),
 }
 
 impl Router {
-    fn new() -> Self {
-        Rotuer { routes: vec![]}
+    pub fn new() -> Self {
+        Router { routes: vec![]}
     }
 
-    fn add_route(&mut self, method: &str, path: &str, handler: fn(&mut TcpStream, &str)) {
+    pub fn add_route(&mut self, method: &str, path: &str, handler: fn(&mut TcpStream, &str)) {
         let route = Route {
             method: method.to_string(),
             path: path.to_string(),
@@ -26,13 +26,16 @@ impl Router {
         self.routes.push(route);
     }
 
-    fn handle_request(&self, stream: &mut TcpStream, method: &str, path: &str) {
+    pub fn handle_request(&self, stream: &mut TcpStream, method: &str, path: &str) {
         for route in &self.routes {
             if route.method == method && route.path == path {
                 (route.handler)(stream, path);
                 return;
             }
         }
-
+        // If no route matches the request, send a 404 response
+        let response = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
+        stream.write(response.as_bytes()).unwrap();
+        stream.flush().unwrap();
     }
 }
