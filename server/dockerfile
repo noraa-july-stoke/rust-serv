@@ -5,16 +5,16 @@ FROM rust:latest
 WORKDIR /usr/src/rust-serv/server
 
 # Copy the Cargo.toml and Cargo.lock files to the container
-COPY Cargo.toml Cargo.lock ./
+COPY . .
 
 # Build the Rust application
 RUN cargo build --release
 
 # Copy the source code to the container
-COPY ./target/release .
+COPY ./target/release ./
 
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
 # Run the server when the container launches
-CMD ["./target/release/rust-serv"]
+CMD ["./target/release/main"]
