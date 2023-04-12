@@ -1,0 +1,3 @@
+FROM rust:latest AS builder
+
+WORKDIR /usr/src
