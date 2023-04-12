@@ -15,6 +15,22 @@ impl Router {
         Router { routes: vec![]}
     }
 
+    pub fn get(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
+        self.add_route("GET", path, handler);
+    }
+    s
+    pub fn post(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
+        self.add_route("POST", path, handler);
+    }
+
+    pub fn put(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
+        self.add_route("PUT", path, handler);
+    }
+
+    pub fn delete(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
+        self.add_route("DELETE", path, handler);
+    }
+
     pub fn add_route(&mut self, method: &str, path: &str, handler: fn(&mut TcpStream, &str)) {
         let route = Route {
             method: method.to_string(),
