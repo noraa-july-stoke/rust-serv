@@ -4,7 +4,6 @@ use std::net::TcpStream;
 pub struct Router {
     routes: Vec<Route>,
 }
-
 pub struct Route {
     method: String,
     path: String,
