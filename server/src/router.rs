@@ -12,21 +12,25 @@ pub struct Route {
 
 impl Router {
     pub fn new() -> Self {
-        Router { routes: vec![]}
+        Router { routes: vec![] }
     }
 
+    #[allow(dead_code)]
     pub fn get(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
         self.add_route("GET", path, handler);
     }
-    s
+
+    #[allow(dead_code)]
     pub fn post(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
         self.add_route("POST", path, handler);
     }
 
+    #[allow(dead_code)]
     pub fn put(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
         self.add_route("PUT", path, handler);
     }
 
+    #[allow(dead_code)]
     pub fn delete(&mut self, path: &str, handler: fn(&mut TcpStream, &str)) {
         self.add_route("DELETE", path, handler);
     }
@@ -37,7 +41,6 @@ impl Router {
             path: path.to_string(),
             handler,
         };
-
         self.routes.push(route);
     }
 

@@ -18,3 +18,6 @@ EXPOSE 8080
 
 # Run the server when the container launches
 CMD ["./target/release/main"]
+
+
+#usr/src/rust-serv/server/target/release/main
