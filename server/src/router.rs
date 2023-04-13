@@ -45,13 +45,17 @@ impl Router {
     }
 
     pub fn handle_request(&self, stream: &mut TcpStream, method: &str, path: &str) {
+        println!("handling request for {}: {}", method, path);
         for route in &self.routes {
+        println!("checking route {} {}", route.method, route.path);
             if route.method == method && route.path == path {
+                println!("found handler for route {} {}", route.method, route.path);
                 (route.handler)(stream, path);
                 return;
             }
         }
         // If no route matches the request, send a 404 response
+        println!("no handler found for {}: {}", method, path);
         let response = "HTTP/1.1 404 NOT FOUND\r\n\r\n";
         stream.write(response.as_bytes()).unwrap();
         stream.flush().unwrap();

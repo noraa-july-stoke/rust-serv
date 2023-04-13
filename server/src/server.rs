@@ -22,7 +22,7 @@ impl Server {
 
     pub fn start(&self) {
         let listener = TcpListener::bind(format!("0.0.0.0:{}", self.options.port)).unwrap();
-        println!("🪴 Server available @ port {}...", self.options.port);
+        println!("🪴  Server available @ port {}...", self.options.port);
 
         for stream in listener.incoming() {
             let mut stream = stream.unwrap();
@@ -35,8 +35,8 @@ impl Server {
             let request_lines: Vec<&str> = request.lines().collect();
             let request_line = request_lines[0];
             let request_parts: Vec<&str> = request_line.split(" ").collect();
-            let method = request_parts[0];
-            let path = request_parts[1];
+            let method = request_parts.get(0).unwrap_or(&"");
+            let path = request_parts.get(1).unwrap_or(&"");
 
             if self.options.logging {
                 let message = format!("Received {} request for {}", method, path);
