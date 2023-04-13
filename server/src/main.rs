@@ -1,20 +1,42 @@
 mod router;
+use router::Router;
 use std::io::prelude::*;
 use std::net::TcpListener;
-use router::Router;
 
 fn main() {
     let mut router = Router::new();
-    router.add_route("GET", "/", |stream, _| {
+
+    router.get("/", |stream, _| {
         let response = "HTTP/1.1 200 OK\r\n\r\nHello, world!";
         stream.write(response.as_bytes()).unwrap();
         stream.flush().unwrap();
     });
 
-    let listener = TcpListener::bind("127.0.0.1:8080").unwrap();
+    router.post("/", |stream, _body| {
+        let response = "HTTP/1.1 200 OK\r\n\r\nHello, world!";
+        stream.write(response.as_bytes()).unwrap();
+        stream.flush().unwrap();
+    });
+
+    router.put("/", |stream, _body| {
+        let response = "HTTP/1.1 200 OK\r\n\r\nHello, world!";
+        stream.write(response.as_bytes()).unwrap();
+        stream.flush().unwrap();
+    });
+
+    router.delete("/", |stream, _| {
+        let response = "HTTP/1.1 200 OK\r\n\r\nHello, world!";
+        stream.write(response.as_bytes()).unwrap();
+        stream.flush().unwrap();
+    });
+
+    let listener = TcpListener::bind("0.0.0.0:8080").unwrap();
     println!("Server listening on port 8080");
 
     for stream in listener.incoming() {
+        let message = "The server has been hit!";
+        println!("{}", message);
+
         let mut stream = stream.unwrap();
         let mut buffer = [0; 1024];
         stream.read(&mut buffer).unwrap();
